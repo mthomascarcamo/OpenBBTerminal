@@ -25,6 +25,10 @@ def sec_filings(symbol: str, limit: int = 5, export: str = ""):
         Export dataframe data to csv,json,xlsx file
     """
     df_financials = marketwatch_model.get_sec_filings(symbol)
+
+    if df_financials.empty:
+        raise ValueError("SEC Filings not found")
+
     print_rich_table(
         df_financials.head(limit),
         headers=list(df_financials.columns),

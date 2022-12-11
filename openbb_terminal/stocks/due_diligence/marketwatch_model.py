@@ -43,7 +43,7 @@ def get_sec_filings(symbol: str) -> pd.DataFrame:
     )
 
     # a_financials_header = list()
-    df_financials = None
+    df_financials = pd.DataFrame()
     b_ready_to_process_info = False
     soup_financials = text_soup_financials.findAll("tr", {"class": "table__row"})
     for financials_info in soup_financials:
@@ -67,6 +67,9 @@ def get_sec_filings(symbol: str) -> pd.DataFrame:
                 df_financials = pd.DataFrame(columns=l_financials_header)
                 df_financials.set_index("Filing Date")
                 b_ready_to_process_info = True
+    
+    if df_financials.empty:
+        return df_financials
 
     # Set Filing Date as index
     df_financials = df_financials.set_index("Filing Date")  # type: ignore
